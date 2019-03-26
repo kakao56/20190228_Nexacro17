@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper">
+
+	<resultMap type="map" id="listMap">
+		<result column="m_idx" property="m_idx"/>
+		<result column="m_id" property="m_id"/>
+		<result column="m_pw" property="m_pw"/>
+		<result column="m_name" property="m_name"/>
+		<result column="m_level" property="m_level"/>
+	</resultMap>
+	
+	<!-- 회원정보 조회 -->
+	<select id="getList" resultMap="listMap">
+		select
+			 m_idx
+			,m_id
+			,m_pw
+			,m_name
+			,m_level
+		from 
+			k_member
+		order by 1
+	</select>
+	
+	<!-- 회원 등록 -->
+	<insert id="saveEmp" parameterType="map">
+		insert into 
+					k_member 
+		values(
+			(select nvl(max(m_idx),0)+1 from k_member)
+				,#{m_id}
+				,#{m_pw}
+				,#{m_name}
+				,#{m_level}
+				)
+	</insert>
+	
+	<!-- 회원 삭제 -->
+	<delete id="deleteEmp" parameterType="map">
+		delete 
+		from 
+			k_member
+		where 
+			m_idx = #{m_idx}
+	</delete>
+	
+	<!-- 회원 수정 -->
+	<update id="editEmp" parameterType="map">
+		update 
+			k_member
+		set
+			m_id = #{m_id}
+			,m_pw = #{m_pw}
+			,m_name = #{m_name}
+			,m_level = #{m_level}
+		where
+			m_idx = #{m_idx}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
